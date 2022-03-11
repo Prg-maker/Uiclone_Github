@@ -1,10 +1,12 @@
 import styled from 'styled-components';
+import {RiBookMarkLine} from 'react-icons/ri'
 
 export const Container = styled.div`
   --horizontalPadding: 16px;
   --verticalPadding: 20px;
 
   padding: var(--horizontalPadding) var(--verticalPadding);
+  overflow: hidden;
 `;
 
 
@@ -68,5 +70,60 @@ export const CalendarHeading = styled.span`
   margin: 36px 0 9px ;
   display: inline-flex;
   
+
+`
+
+
+export const RepoIcon = styled(RiBookMarkLine)`
+
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+
+
+
+`  
+export const Tab = styled.div`
+  background: var(--primary);
+
+  .content {
+    display: flex;
+    align-items: center;
+    width: min-content;
+    padding: 14px 16px;
+    border-bottom: 2px solid var(--orange);
+    .label {
+      font-size: 14px;
+      padding: 0 7px;
+      font-weight: 600;
+    }
+    .number {
+      font-size: 12px;
+      background: var(--ticker);
+      padding: 2px 6px;
+      border-radius: 24px;
+    }
+  }
+
+  .line{
+    display: flex;
+    width: 200vw;
+    border-bottom: 1px solid var(--border);
+    margin-left: -50vw;
+
+    position:relative;
+    bottom: 16px;
+  }
+
+  &.mobile{
+    margin-top: var( --verticalPadding);
+    justify-content: center;
+    
+    .content{
+      margin: 0 auto;
+      
+  
+    }
+  }
 
 `

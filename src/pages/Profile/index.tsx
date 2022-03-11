@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Container, Main , LeftSide, RightSide,  Repos , CalendarHeading } from './styles';
+import { Container, Main , LeftSide, RightSide,  Repos , CalendarHeading , RepoIcon , Tab } from './styles';
 
 import PofileData from '../../components/ProfileData'
 import RepoCard from '../../components/RepoCard';
@@ -9,8 +9,28 @@ import RepoCard from '../../components/RepoCard';
 import RadmonCalendar from '../../components/RadmonCalendar'
 
 const Profile: React.FC = () => {
+
+  const TabContent = () => {
+    return(
+      <div className='content'>
+
+        <RepoIcon/>
+
+        <span className='label'>Repositories</span>
+        <span className='number'>65</span>
+
+      </div>
+
+    )
+  }
+
   return(
     <Container >
+      <Tab className='desktop'>
+        <TabContent/>
+
+      </Tab>
+
       <Main>
         <LeftSide>
           <PofileData
@@ -28,7 +48,14 @@ const Profile: React.FC = () => {
         </LeftSide>
         <RightSide>
 
+
+
           <Repos>
+            <Tab className="mobile">
+              <TabContent/>
+              <span className='line'></span>
+            </Tab>
+
             <h2>Random repos</h2>
 
             <div>
