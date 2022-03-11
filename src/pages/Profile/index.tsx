@@ -1,9 +1,12 @@
 import React from 'react';
 
-import { Container, Main , LeftSide, RightSide,  } from './styles';
+import { Container, Main , LeftSide, RightSide,  Repos , CalendarHeading } from './styles';
 
 import PofileData from '../../components/ProfileData'
+import RepoCard from '../../components/RepoCard';
 
+
+import RadmonCalendar from '../../components/RadmonCalendar'
 
 const Profile: React.FC = () => {
   return(
@@ -24,6 +27,35 @@ const Profile: React.FC = () => {
           />
         </LeftSide>
         <RightSide>
+
+          <Repos>
+            <h2>Random repos</h2>
+
+            <div>
+              {[ 1 , 2 , 3 , 4 , 5 , 6].map(n => {
+                return(
+                  <RepoCard
+                    key={n}
+                    username= {'danielSilva'}
+                    reponame={'youtube-content'}
+                    description= {'Contains all of my Youtube lesson code'}
+                    language={n % 3 == 0 ? "Javascript": "Typescript"}
+                    stars={0}
+                    forks = {0}
+                  />
+                )
+              })}
+            </div>
+
+          </Repos>
+              
+              <CalendarHeading>
+                Random calendar do not represent actual data
+              </CalendarHeading>
+
+
+              <RadmonCalendar/>
+
 
         </RightSide>
       </Main>

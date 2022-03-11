@@ -1,3 +1,6 @@
+
+import 'react-calendar-heatmap/dist/styles.css'
+
 import {
   BrowserRouter,
   Routes,

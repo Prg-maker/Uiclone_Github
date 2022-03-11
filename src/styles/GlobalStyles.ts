@@ -40,6 +40,7 @@ export default createGlobalStyle`
     --search-placeholder: hsla(0, 0%, 100%, .75);
     --icon: #6a737d;
     --link: #0366d6;
+    
     --border: #e1e4e8;
     --ticker: rgba(209,213,218, .5);
     
