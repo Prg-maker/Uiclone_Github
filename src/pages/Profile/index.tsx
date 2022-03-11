@@ -27,8 +27,14 @@ const Profile: React.FC = () => {
   return(
     <Container >
       <Tab className='desktop'>
-        <TabContent/>
 
+        <div className="wrapper">
+          <span className="offset" />
+          <TabContent />
+
+        </div>
+        <span className='line'></span>
+       
       </Tab>
 
       <Main>
@@ -52,8 +58,8 @@ const Profile: React.FC = () => {
 
           <Repos>
             <Tab className="mobile">
-              <TabContent/>
-              <span className='line'></span>
+                <TabContent/>
+                <span className='line'></span>
             </Tab>
 
             <h2>Random repos</h2>

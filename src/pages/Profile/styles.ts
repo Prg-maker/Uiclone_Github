@@ -111,8 +111,6 @@ export const Tab = styled.div`
     border-bottom: 1px solid var(--border);
     margin-left: -50vw;
 
-    position:relative;
-    bottom: 16px;
   }
 
   &.mobile{
@@ -124,6 +122,44 @@ export const Tab = styled.div`
       
   
     }
+
+    .line{
+      position: relative;
+      bottom: 16px;
+    }
+
+
+
+    @media(min-width: 768px){
+      display: none;
+
+    }
+  }
+
+  &.desktop{
+    display: none;
+    
+
+    @media(min-width: 768px){
+      display: unset;
+
+      .wrapper{
+        display: flex;
+        margin: 0 auto;
+        max-width: 1280px;
+        .offset{
+          width: 25%; 
+          margin-right: var(--horizontalPadding);
+    
+    
+        } 
+
+      }
+
+
+      
+    }
+   
   }
 
 `
