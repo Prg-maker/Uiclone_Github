@@ -1,5 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { APIREPO } from '../../@types';
 
 import { 
   Container,
@@ -13,13 +14,51 @@ import {
 
 } from './styles';
 
+
+interface Data {
+  repo?: APIREPO;
+  error?: string
+}
+
+
 const Repo: React.FC = () => {
+
+  const {username , reponame } = useParams()
+
+  const [data ,setData] = useState<Data>()
+
+
+  useEffect(()=> {
+
+    fetch(`https://api.github.com/repos/${username}/${reponame}`).then(
+      async (response)=> {
+        setData(
+          response.status === 404
+            ? { error: 'Repository not found!' }
+            : { repo: await response.json() }
+        )
+
+
+      }
+    )
+    
+  } , [reponame , username])
+
+
+  if (data?.error) {
+    return <h1>{data.error}</h1>;
+  }
+
+  if (!data?.repo) {
+    return <h1>Loading...</h1>;
+  }
+
   return (
     <Container>
       <Breadcrum>
         <RepoIcon/>
         <Link  to={'/Daniels'} className={'username'} >
-          daniel
+          {username}/ 
         </Link>
 
 
@@ -27,25 +66,25 @@ const Repo: React.FC = () => {
 
 
         <Link to={"/daniel/youtube-clone"} className={'reponame'}>
-          youtube-clone
+        {reponame}
         </Link>
 
       </Breadcrum>
 
-      <p>Contains all of my Youtube lessons  code.</p>
+      <p>{data.repo.description}</p>
 
 
       <Stars>
 
         <li>
           <StartIcon/>
-          <b>9</b>
+          <b>{data.repo.stargazers_count}</b>
           <span>stars</span>
         </li>
 
         <li>
           <ForkIcon/>
-          <b>0</b>
+          <b>{data.repo.forks}</b>
           <span>Forkss</span>
         </li>
 
@@ -53,7 +92,7 @@ const Repo: React.FC = () => {
       </Stars>
 
 
-      <LinkButton href={'https://github.com/Prg-maker?tab=repositories'}>
+      <LinkButton href={data.repo.html_url}>
 
         <GithubIcon/>
 

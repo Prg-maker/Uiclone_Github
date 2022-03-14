@@ -1,14 +1,71 @@
-import React from 'react';
+import React , {useEffect, useState}from 'react';
 
 import { Container, Main , LeftSide, RightSide,  Repos , CalendarHeading , RepoIcon , Tab } from './styles';
 
 import PofileData from '../../components/ProfileData'
 import RepoCard from '../../components/RepoCard';
 
+import {useParams} from 'react-router-dom'
+
 
 import RadmonCalendar from '../../components/RadmonCalendar'
+import { APIREPO, APIUSER } from '../../@types';
+
+interface Data {
+  user?: APIUSER;
+  repos?: APIREPO[];
+  error?: string
+}
+
 
 const Profile: React.FC = () => {
+
+  const {username = "Prg-Maker"} = useParams()
+
+  const [data, setData] = useState<Data>()
+
+
+  useEffect(()=> {
+    Promise.all([
+      fetch(`https://api.github.com/users/${username}`),
+      fetch(`https://api.github.com/users/${username}/repos`)
+
+
+
+
+    ]).then(async (responses) => {
+
+      const [userReponse , reposResponse] = responses
+
+      if(userReponse.status == 404){
+        setData({error: 'User not found'})
+        
+        return;
+      }
+
+      const user = await userReponse.json()
+      const repos = await reposResponse.json()
+      
+
+      const  shuffleRepos = repos.sort(()=> 0.50 - Math.random())
+      const slicedRepos = shuffleRepos.slice(0 , 6)
+      
+      setData({
+        user,
+        repos: slicedRepos
+      })
+
+    })
+  } , [username])
+
+
+  if(data?.error){
+    return <h1>{data.error}</h1>
+  }
+
+  if(!data?.user || !data?.repos ){
+    return <h1>Lodding...</h1>
+  }
 
   const TabContent = () => {
     return(
@@ -17,7 +74,7 @@ const Profile: React.FC = () => {
         <RepoIcon/>
 
         <span className='label'>Repositories</span>
-        <span className='number'>65</span>
+        <span className='number'>{data?.user?.public_repos}</span>
 
       </div>
 
@@ -40,15 +97,15 @@ const Profile: React.FC = () => {
       <Main>
         <LeftSide>
           <PofileData
-            username= 'DanielFernades'
-            name="Daniel Ferndens"
-            avatarUrl = "https://github.com/Prg-Maker.png"
-            followers={400}
-            following={40}
-            company = "daniel"
-            location = "DF, Brazil"
-            email="daniel.fernandes.professional@gmail.com"
-            blog={undefined}
+            username= {data?.user?.login}
+            name={data?.user?.name}
+            avatarUrl = {data?.user?.avatar_url}
+            followers={data?.user?.followers}
+            following={data?.user?.following}
+            company = {data?.user?.company}
+            location = {data?.user?.location}
+            email={data?.user?.email}
+            blog={data?.user?.blog}
 
           />
         </LeftSide>
@@ -65,16 +122,16 @@ const Profile: React.FC = () => {
             <h2>Random repos</h2>
 
             <div>
-              {[ 1 , 2 , 3 , 4 , 5 , 6].map(n => {
+              {data?.repos?.map( (item) => {
                 return(
                   <RepoCard
-                    key={n}
-                    username= {'danielSilva'}
-                    reponame={'youtube-content'}
-                    description= {'Contains all of my Youtube lesson code'}
-                    language={n % 3 == 0 ? "Javascript": "Typescript"}
-                    stars={0}
-                    forks = {0}
+                    key={item.name}
+                    username= {item.owner.login}
+                    reponame={item.name}
+                    description= {item.description}
+                    language={item.language}
+                    stars={item.stargazers_count}
+                    forks = {item.forks}
                   />
                 )
               })}
